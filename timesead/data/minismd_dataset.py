@@ -15,14 +15,14 @@ from timesead.utils.metadata import DATA_DIRECTORY
 _logger = logging.getLogger(__name__)
 
 FILENAMES = [
-    'machine-1-1.txt',
     'machine-1-3.txt',
     'machine-1-7.txt',
+    'machine-cloud.txt',
 ]
 
-TRAIN_LENS = [500, 1000]
+TRAIN_LENS = [500, 1000, 932]
 
-TEST_LENS = [500, 1000]
+TEST_LENS = [500, 1000, 932]
 
 
 class MiniSMDDataset(BaseTSDataset):
@@ -34,13 +34,16 @@ class MiniSMDDataset(BaseTSDataset):
                  training: bool = True, standardize: Union[bool, Callable] = True, preprocess: bool = True):
         """
 
-        :param server_id: ID of the server to load. Must be 0 or 1.
+        :param server_id: Data from which machine to load. Must be in [0, ..., 2].
         :param path: Path to the data
         :param training: Whether to load the training or the test set.
         :param standardize: Can be either a bool that decides whether to apply the dataset-dependent default
             standardization or a function with signature (dataframe, stats) -> dataframe, where stats is a dictionary of
             common statistics on the training dataset (i.e., mean, std, median, etc. for each feature)
         """
+        if not (0 <= server_id <= 2):
+            raise ValueError(f'Server ID must be between 0 and 2! Given: {server_id}')
+
         self.server_id   = server_id
         self.path        = path
         self.training    = training
