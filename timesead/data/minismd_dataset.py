@@ -15,6 +15,7 @@ from timesead.utils.metadata import DATA_DIRECTORY
 _logger = logging.getLogger(__name__)
 
 FILENAMES = [
+    'machine-1-1.txt',
     'machine-1-3.txt',
     'machine-1-7.txt',
 ]
